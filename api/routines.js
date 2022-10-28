@@ -37,6 +37,7 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
   const { routineId } = req.params;
   const fields = req.body;
   const check = await getRoutineById(routineId);
+  console.log(check);
 
   let error = {
     error: "Error",
@@ -44,7 +45,7 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
     name: "name errror",
   };
 
-  if (check.id !== req.user.id) {
+  if (check.creatorId !== req.user.id) {
     res.status(403);
     res.send(error);
   } else {
@@ -57,7 +58,6 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
 router.delete("/:routineId", requireUser, async (req, res, next) => {
   const { routineId } = req.params;
   const check = await getRoutineById(routineId);
-  //   console.log(check);
   let error = {
     error: "Error",
     message: `User ${req.user.username} is not allowed to delete ${check.name}`,
@@ -68,7 +68,6 @@ router.delete("/:routineId", requireUser, async (req, res, next) => {
     res.send(error);
   } else {
     const deleteRoutine = await destroyRoutine(routineId);
-    //   console.log(deleteRoutine);
     res.send(deleteRoutine);
   }
 });
@@ -78,7 +77,6 @@ router.post("/:routineId/activities", requireUser, async (req, res, next) => {
   const { routineId } = req.params;
   const { activityId, count, duration } = req.body;
   //   const routine = await getRoutineById(routineId);
-  //   console.log(routine);
   let error = {
     error: "error",
     message: `Activity ID ${activityId} already exists in Routine ID ${routineId}`,
@@ -86,8 +84,6 @@ router.post("/:routineId/activities", requireUser, async (req, res, next) => {
   };
 
   const activities = await getRoutineActivitiesByRoutine({ id: routineId });
-  console.log(activities);
-  console.log(activities.includes(activityId));
 
   var duplicate = false;
   for (var key in activities) {

@@ -7,7 +7,6 @@ async function getRoutineActivityById(id) {
     SELECT * FROM routine_activities WHERE id = $1; `,
       [id]
     );
-    // console.log(result.rows[0]);
     return result.rows[0];
   } catch (error) {
     throw error;
@@ -28,16 +27,13 @@ async function addActivityToRoutine({
   RETURNING *; `,
       [routineId, activityId, duration, count]
     );
-    // console.log(result.rows[0]);
     return result.rows[0];
   } catch (error) {
-    console.log("error with addactivitytoroutine");
     throw error;
   }
 }
 
 async function getRoutineActivitiesByRoutine({ id }) {
-  console.log(id);
   try {
     const result = await client.query(
       `
@@ -67,7 +63,6 @@ async function updateRoutineActivity({ id, ...fields }) {
     `,
       Object.values(fields)
     );
-    // console.log(update.rows[0]);
     return update.rows[0];
   }
 }
@@ -81,7 +76,6 @@ async function destroyRoutineActivity(id) {
     RETURNING *;`,
       [id]
     );
-    // console.log(result.rows[0]);
     return result.rows[0];
   } catch (error) {
     throw error;
