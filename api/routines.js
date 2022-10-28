@@ -46,6 +46,14 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
     message: `User ${req.user.username} is not allowed to update ${check.name}`,
     name: "name errror",
   };
+  let error2 = {
+    error: "error",
+    message: "no inputs found",
+  };
+
+  if (!fields) {
+    res.send(error2);
+  }
 
   if (check.creatorId !== req.user.id || !check.creatorId) {
     res.status(403);
