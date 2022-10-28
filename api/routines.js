@@ -37,6 +37,7 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
   const { routineId } = req.params;
   const fields = req.body;
   const check = await getRoutineById(routineId);
+  // console.log(await getRoutineById(12333));
 
   console.log(check.creatorId);
   console.log(req.user.id);
