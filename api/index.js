@@ -53,7 +53,12 @@ router.use((error, req, res, next) => {
 });
 
 // GET /api/health
-router.get("/health", async (req, res, next) => {});
+router.get("/health", async (req, res, next) => {
+  output = {
+    message: "all is well",
+  };
+  res.send(output);
+});
 
 // ROUTER: /api/users
 const usersRouter = require("./users");
