@@ -37,7 +37,8 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
   const { routineId } = req.params;
   const fields = req.body;
   const check = await getRoutineById(routineId);
-  console.log(check);
+  console.log(check.creatorId);
+  console.log(req.user.id);
 
   let error = {
     error: "Error",
@@ -45,10 +46,10 @@ router.patch("/:routineId", requireUser, async (req, res, next) => {
     name: "name errror",
   };
 
-  if (check.creatorId !== req.user.id) {
+  if (check.creatorId !== req.user.id || !check.creatorId) {
     res.status(403);
     res.send(error);
-  } else {
+  } else if (check.creatorId === req.user.id) {
     const update = await updateRoutine({ id: routineId, ...fields });
     res.send(update);
   }
